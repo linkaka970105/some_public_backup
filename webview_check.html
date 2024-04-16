@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebView Detection Test</title>
+    <script>
+        function detectWebView() {
+            var userAgent = navigator.userAgent.toLowerCase();
+            var isWebView = false;
+
+            // 更精确的用户代理检测
+            if (userAgent.includes("wv") || userAgent.includes("aliapp")) {
+                isWebView = true;
+            }
+
+            // 检查是否存在桌面浏览器特有的API
+            if (typeof window.chrome !== "undefined" && window.chrome.webstore) {
+                isWebView = false;
+            }
+
+            // 检查移动设备上是否缺乏触摸事件支持
+            if (('ontouchstart' in window) && !('onmousemove' in window)) {
+                isWebView = true;
+            }
+
+            // 弹窗显示结果
+            if (isWebView) {
+                alert("This page is likely opened in a WebView environment.");
+            } else {
+                alert("This page is likely not opened in a WebView environment.");
+            }
+        }
+
+        window.onload = detectWebView;
+    </script>
+</head>
+<body>
+    <h1>WebView Detection Test</h1>
+    <p>This page tests if it is opened inside a WebView or a standard browser.</p>
+</body>
+</html>
